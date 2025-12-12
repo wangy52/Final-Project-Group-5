@@ -1,0 +1,15 @@
+# External code / libraries used for this project are the following: 
+
+PyTorch 
+
+Torchvision 
+
+Scikit-Image
+
+OpenCV
+
+Matplotlib
+
+NumPy
+
+Google Colab GPU
