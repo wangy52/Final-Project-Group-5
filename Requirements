@@ -1,15 +1,9 @@
 # External code / libraries used for this project are the following: 
-
-PyTorch 
-
-Torchvision 
-
-Scikit-Image
-
-OpenCV
-
-Matplotlib
-
-NumPy
-
-Google Colab GPU
+torch>=2.0
+torchvision>=0.15
+numpy
+opencv-python
+scikit-image
+scikit-learn
+matplotlib
+pillow
