@@ -1,106 +1,102 @@
-Zebrafish Epithelial Cell Classification
+# Zebrafish Epithelial Cell Classification  
+**CS184A – Group 5 Final Project**
 
-CS184A – Group 5 Final Project
+---
 
-========= Project Overview =========
+## 1. Project Overview
 
-This project develops a deep learning pipeline to automatically classify zebrafish epithelial cells as Wild-Type (WT) or Transgenic (TG) from confocal microscopy images.
+This project develops a deep learning pipeline to automatically classify **zebrafish epithelial cells** as **Wild-Type (WT)** or **Transgenic (TG)** from confocal microscopy images.
 
-Manual annotation of microscopy images is time-consuming and error-prone. Our system addresses this problem by:
+Manual annotation of microscopy images is time-consuming, subjective, and not scalable. Our system addresses this challenge by:
 
-1. Automatically segmenting individual cells from full microscopy images
+- Automatically segmenting individual cells from full microscopy images  
+- Automatically labeling cells into WT or TG classes  
+- Training CNN-based models to classify each cell  
+- Comparing a baseline CNN with transfer learning models (ResNet50 and EfficientNet-B0)
 
-2. Training CNN-based models to classify each cell as WT or TG
+## 2. Repository Structure
 
-3. Comparing a baseline CNN with transfer learning models (ResNet50, EfficientNet-B0)
+Project/  
+├── CS184A_Group_5_Final_Project.ipynb  
+├── Data/  
+│ ├── image01.tif  
+│ ├── image02.tif  
+│ ├── ...  
+│ └── image41.tif  
+├── Output/  
+│ ├── WT/  
+│ └── TG/  
+├── requirements.txt  
+└── README.md  
 
+## 3. Environment Setup
 
-========= Repository Structure =========
-.
-├── Project/
-    ├── CS184A_Group 5_Final project.ipynb
-    │
-    │
-    ├── Data/   		                # 41 original pictures
-    ├── Output/
-    │	 ├── WT							# WT output
-    │	 ├── TG							# TG output
-    │
-    ├── requirements.txt
-    ├── README.md
+### Python Version
+- Python **3.9 – 3.10** recommended  
+- Tested on **Google Colab (GPU enabled)**
 
-========= Environment Setup =========
-1. Python Version
+### Install Dependencies
 
-Python 3.9 – 3.10 recommended
-
-Tested on Google Colab (GPU)
-
-2. Install Dependencies
-
-Run the following command:
-
-	pip install -r requirements.txt
+Install required packages using:
+pip install -r requirements.txt
 
 
-========= Data Organization =========
+## 4. Data Organization
 Full Dataset (Used in Training)
+The dataset consists of 41 confocal microscopy images:
 
-If you have access to the full dataset:
-
-Data/
-├── image01.tif
-├── image02.tif
-├── ...
-├── image41.tif
-
-
-Upload this folder to Google Drive and update the path in the notebook:
+Data/  
+├── image01.tif  
+├── image02.tif  
+├── ...  
+└── image41.tif  
+Upload the Data/ folder to Google Drive and update the path in the notebook:
 
 DATA_ROOT = "/content/drive/MyDrive/Data"
+Output Dataset (Auto-generated)
+After segmentation and auto-labeling, cropped single-cell images are saved to:
+Output/  
+├── WT/  
+└── TG/  
 
-Sample Dataset (For Demo)
 
-
-========= How to Run the Project =========
+## 5. How to Run the Project
 Run on Google Colab (Recommended)
+Open Google Colab
 
-1. Open Google Colab
-2. Upload notebooks from notebooks/
-3. Enable GPU:
-	Runtime -> Change runtime type -> Hardware accelerator -> GPU
-4. Mount Google Drive:
+Upload the notebook:
+CS184A_Group_5_Final_Project.ipynb
 
-	from google.colab import drive
-	drive.mount('/content/drive')
+Enable GPU:
+Runtime → Change runtime type → Hardware accelerator → GPU
 
+Mount Google Drive:
+from google.colab import drive
+drive.mount('/content/drive')
 
-Step 1: Cell Segmentation & Auto-labeling
-Run Cell 3:
-Segments individual cells from the 41 original images
-Saves cropped cells into:
-/content/drive/MyDrive/CS184A/Project/Output/
-├── WT/
-└── TG/
+## 6. Execution Pipeline
+### Step 1: Cell Segmentation & Auto-labeling
+Segments individual cells from the 41 original microscopy images
 
-Step 2: Baseline CNN Training (Student Y Nhi)
-Run all cells in and below:
-# === Y Nhi's part
+Automatically assigns each cell to WT or TG
 
-This includes:
-Cell segmentation & auto-labeling (step 1 above)
+Cropped cells are saved to:
+/content/drive/MyDrive/CS184A/Project/Output/  
+├── WT/  
+└── TG/  
+
+### Step 2: Baseline CNN Training (Student Y Nhi Tran)
+Includes:
 Dataset loading
+Data preprocessing
 Baseline CNN training
-Validation & testing
-Confusion matrix & metrics
+Validation and testing
+Confusion matrix and performance metrics
 
-Best model is saved to:
+Best model saved to:
 /content/drive/MyDrive/CS184A/Project/baseline_best.pth
 
-Step 3: Transfer Learning Models (Student Yasmeen)
-Run:
-# === Yasmeen Part ...
-
+### Step 3: Transfer Learning Models (Student Yasmeen Soe)
 Models trained:
 ResNet50 (ImageNet pretrained)
 EfficientNet-B0 (ImageNet pretrained)
@@ -109,53 +105,32 @@ Best models saved as:
 resnet50_best.pth
 efficientnet_best.pth
 
-Step 4: Evaluation & Comparison
-
-Final comparison includes:
+### Step 4: Evaluation & Comparison
+Final evaluation includes:
 Accuracy
 Precision
 Recall
-F1 Score
-Confusion Matrix
-Bar plot comparing Baseline vs Transfer Learning
+F1-score
+Confusion matrix
+Bar plot comparing Baseline CNN vs Transfer Learning models
 
-
-========= Results Summary (Final Run) =========
-Model	F1 Score
-Baseline CNN	0.70
-ResNet50	0.83
-EfficientNet-B0	0.91
+## 7. Results Summary (Final Run)
+Model 
+Baseline CNN has F1 Score: 0.70  
+ResNet50 has F1 Score: 0.83  
+EfficientNet-B0	has F1 Score: 0.91  
 
 EfficientNet-B0 achieved the best overall performance.
 
-========= requirements.txt =========
-torch
-torchvision
-numpy
-opencv-python
-scikit-image
-scikit-learn
-matplotlib
-pillow
-cellpose==2.2.2
-
-========= Reproducibility Notes =========
-
+## 8. Reproducibility Notes
 Results may vary slightly between runs due to random initialization
-
 Best models are selected based on validation F1-score
-
 Fixed train/validation/test splits are used
 
-========= Authors & Contributions =========
+## 9. Authors & Contributions
+Y Nhi Tran: Data preprocessing, cell segmentation, baseline CNN, evaluation
+Yi Wang: Dataset acquisition, annotation guidance, validation, report writing
+Yasmeen Soe: Transfer learning models, hyperparameter tuning, model comparison
 
-Student Y Nhi Tran: Data preprocessing, cell segmentation, baseline CNN, evaluation
-
-Student Yi Wang: Dataset acquisition, annotation guidance, validation, report writing
-
-Student Yasmeen Soe: Transfer learning models, hyperparameter tuning, model comparison
-
-
-========= Contact =========
-
+## 10. Contact
 For questions regarding the project or code execution, please contact the team via the GitHub repository.
